@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import time
+tic = time.perf_counter()
+toremove = []
 alphabet=[]
 links = []
 total_poem_text = []
@@ -11,8 +13,8 @@ extensions = []
 poems = {'Titles': [],'Authors': [],'Links': [],'Texts': []}
 duds = []
 error_links = {
-  'linknum': [], #259,268,271
-  'link': [] #/i-do-not-love-you-except-because-i-love-you.html','/i-love-you-ella-wheeler-wilcox.html'
+  'linknum': [], 
+  'link': [] 
 }
 
 def clear_terminal():
@@ -86,7 +88,10 @@ def get_authors(linknum):
           authors = back_cut
           authors = authors.strip()
           #print(linknum, authors)
-          poems['Authors'].append(authors)
+          with open('Authors.txt', 'a') as f:
+            f.write(authors)
+            f.write('\n')
+          #poems['Authors'].append(authors)
     if x != 0:
       for line in soup.find_all('h1'): #put in same function for faster 
         string_line = str(line)
@@ -94,8 +99,14 @@ def get_authors(linknum):
         back_cut = front_cut.split("<")[0]
         titles = back_cut
         titles = titles.strip()
-        poems['Titles'].append(titles)
+        with open('Titles.txt', 'a') as f:
+          f.write(titles)
+          f.write('\n')
+        #poems['Titles'].append(titles)
     else:
+      with open('duds.txt','a') as f:
+        f.write(linknum)
+        f.write('\n')
       duds.append(linknum)      
 
 def get_texts(linknum):
@@ -199,15 +210,20 @@ def actual_poem_texts():
     get_texts(x)
 
 def fill_dicts_from_links():
+  with open('Titles.txt','w'):
+    pass
+  with open('Authors.txt', 'w'):
+    pass
   for x in range(len(poems['Links'])) : #len(poems['Links'])
       #get_titles(x) faster when titles and authors is in one fx
       try:
         get_authors(x) 
       except:
-        #print('error--------------------------------')
+        with open('errors.txt','a') as f:
+          f.write(str(x))
+          f.write('\n')
         error_links['linknum'].append(x)
         error_links['link'].append((poems['Links'])[x])
-#not necessary if txt files are written already built
 
 def writing():
   with open('Links.txt', 'w') as f:
@@ -258,20 +274,30 @@ def look_up():
                   
         return False    
 
+def clean_links():
+  with open("Links.txt", "r") as fp:
+    lines = fp.readlines()
+
+  with open("Links.txt", "w") as fp:                          
+    for x in range(len(error_links['link'])):
+        toremove.append(str((error_links['link'])[x]))    
+    for line in lines:
+      if line.strip("\n") not in toremove:
+          fp.write(line)
 
 clear_terminal()
-fill_alphabet()
-clear_links_txt()
-fill_extensions()
-get_all_addresses()
-populate_links()
-#populate_auth_titles()
+#fill_alphabet()
+#clear_links_txt()
+#fill_extensions()
+#get_all_addresses()
+populate_links() #only need this for getting links in dict if Links.txt is written
+##populate_auth_titles()
 clear_poems_txt()
 fill_dicts_from_links()
-print(duds)
+#clean_links()
+#print(duds)
 #actual_poem_texts()
-print(len(error_links['link']),len(error_links['linknum']))
-
+#print(len(error_links['link']),len(error_links['linknum']))
 lookup = input('Looking for something?\nCapitalization matters!\n')
 
 while look_up() == True: #when multiple poems by same author
