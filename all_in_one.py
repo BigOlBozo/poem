@@ -7,7 +7,7 @@ toremove = []
 alphabet=[]
 links = []
 total_poem_text = []
-
+poem_txt = []
 text = []
 test = 'yabba dabba do i see you'
 extensions = []
@@ -111,6 +111,7 @@ def get_authors(linknum):
       duds.append(linknum)      
 
 def get_texts(linknum):
+  poem_txt.clear()
   text.clear()
   r = requests.get(str('https://100.best-poems.net'+poems['Links'][linknum]))
   soup = BeautifulSoup(r.content, 'html.parser')
@@ -142,8 +143,10 @@ def get_texts(linknum):
             if len(opn_tag) > 0:
               tag_to_replace = no_br[opn_tag[0]:(clse_tag[0]+1)]
               no_br = no_br.replace(tag_to_replace,'')
-              with open(('apoems\\%s\\%s.txt' % (linknum, b)), 'w') as f:
-                f.write(no_br)
+              if 'href' not in no_br and 'www.' not in no_br and 'Share this Poem:' not in no_br and '&lt;' not in no_br:
+                poem_txt.append(no_br)
+              '''with open(('apoems\\%s\\%s.txt' % (linknum, b)), 'w') as f:
+                f.write(no_br)'''
 
           '''
           for tags in range(len(open_tags)):
@@ -177,7 +180,13 @@ def get_texts(linknum):
             f.write(no_br) #.replace('\n',' LINEBR ')
         total_poem_text.append(no_br) #flag
     poems['Texts'].append(total_poem_text)'''
-
+  with open('presentableallpoems.txt', 'a') as f: 
+    str_poem_txt = str(poem_txt).replace('\\n',' ')
+    str_poem_txt = str_poem_txt.replace('<br/>',' ')
+    str_poem_txt = str_poem_txt.replace('</p>',' ')
+    f.write(str_poem_txt)
+    f.write('\n')
+  
 def print_poem_from_txt(linknum):
   os.system('clear')
   with open('%s.txt' % linknum) as f:
@@ -208,9 +217,14 @@ def clear_poems_txt():
 
 
 def actual_poem_texts(): 
+  with open('allpoems.txt','w'):
+    pass
+  with open('presentableallpoems.txt','w'):
+    pass
+  #get_texts(19)
   for x in range(len(poems['Links'])):
     get_texts(x)
-
+    #pass
 def fill_dicts_from_links():
   with open('Titles.txt','w'):
     pass
@@ -301,7 +315,9 @@ clear_poems_txt()
 actual_poem_texts()
 print(len(poems['Authors']),len(poems['Titles']))
 
-
+'''with open('presentableallpoems.txt') as f:
+  print(f.read())
+'''
 lookup = input('Looking for something?\nCapitalization matters!\n')
 
 while look_up() == True: #when multiple poems by same author
