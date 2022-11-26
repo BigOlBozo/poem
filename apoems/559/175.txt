@@ -1,0 +1,4 @@
+of words printed with all their letters,
+which it has become the custom to represent by the initial and final letter
+    only—a blank
+line filling the interval.”

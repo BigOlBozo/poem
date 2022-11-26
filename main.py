@@ -205,6 +205,7 @@ def clear_poems_txt():
   with open('poems.txt', 'w'):
     pass
 
+
 def actual_poem_texts(): 
   for x in range(len(poems['Links'])):
     get_texts(x)
@@ -291,13 +292,15 @@ clear_terminal()
 #fill_extensions()
 #get_all_addresses()
 populate_links() #only need this for getting links in dict if Links.txt is written
-##populate_auth_titles()
+populate_auth_titles()
 clear_poems_txt()
-fill_dicts_from_links()
+#fill_dicts_from_links()
 #clean_links()
 #print(duds)
-#actual_poem_texts()
-#print(len(error_links['link']),len(error_links['linknum']))
+actual_poem_texts()
+print(len(poems['Authors']),len(poems['Titles']))
+
+
 lookup = input('Looking for something?\nCapitalization matters!\n')
 
 while look_up() == True: #when multiple poems by same author
