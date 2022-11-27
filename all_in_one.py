@@ -10,7 +10,7 @@ total_poem_text = []
 poem_txt = []
 text = []
 test = 'yabba dabba do i see you'
-extensions = []
+extensions = ['/top-100-best-poems.html']
 poems = {'Titles': [],'Authors': [],'Links': [],'Texts': []}
 duds = []
 error_links = {
@@ -55,8 +55,8 @@ def write_links_txt(extension):
                 address = '%s\n' % address
                 with open('Links.txt', 'a') as f:
                   f.write(address)
-                '''links.append('https://100.best-poems.net'+address) 
-                poems['Links'].append(address)'''
+                links.append('https://100.best-poems.net'+address) 
+                poems['Links'].append(address)
 
 def get_all_addresses():
   for x in range(len(extensions)):
@@ -230,6 +230,7 @@ def fill_dicts_from_links():
     pass
   with open('Authors.txt', 'w'):
     pass
+  print(len(poems['Links']))
   for x in range(len(poems['Links'])) : #len(poems['Links'])
       #get_titles(x) faster when titles and authors is in one fx
       try:
@@ -302,9 +303,9 @@ def clean_links():
           fp.write(line)
 
 clear_terminal()
-#fill_alphabet()
+##fill_alphabet()
 #clear_links_txt()
-#fill_extensions()
+##fill_extensions()
 #get_all_addresses()
 populate_links() #only need this for getting links in dict if Links.txt is written
 populate_auth_titles()
