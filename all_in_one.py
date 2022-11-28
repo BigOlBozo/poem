@@ -258,7 +258,19 @@ def get total_sentiment(user_input):
   
   if word in sentiment_value_dictionary:
     score+= sentiment_value_dictionary[word]
-  
+#alternate
+scores = 0
+
+with open("sentiment_value_dictionary.csv") open as csv_file:
+  with open ("presentableallpoems.txt") as text_file:
+      csv_reader = csv.DictReader(sentiment_value_dictionary, fieldnames=("word", "sentiment value"))
+      text_reader = csv.DictReader(presentableallpoems, fieldnames = (("name", "limit_1", "limit_2"), delimiter=";")))
+
+      for csv_row, text_row in zip(csv_reader, text_reader):
+        if word in sentiment_value_dictionary
+        scores += sentiment_value_dictionary[word]
+
+
 
 
 def writing():
