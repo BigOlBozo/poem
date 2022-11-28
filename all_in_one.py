@@ -14,6 +14,7 @@ test = 'yabba dabba do i see you'
 extensions = ['/top-100-best-poems.html']
 poems = {'Titles': [],'Authors': [],'Links': [],'Texts': []}
 duds = []
+sents = {'word': [], 'val':[]}
 error_links = {
   'linknum': [], 
   'link': [] 
@@ -246,11 +247,20 @@ def fill_dicts_from_links():
         error_links['linknum'].append(x)
         error_links['link'].append((poems['Links'])[x])
 #sentiment code 
-def get_sent_value(linknum):
+def poems_into_dict():
   with open('presentableallpoems.txt', 'r') as f:
     for line in f:
-      poems['Texts'].append(line) #each poem has its own entry in the dict, corresponding to its auth, title, and link
-  print((poems['Texts'])[2])
+      poems['Texts'].append(line)
+
+def get_sent_value(linknum):
+  file = open("sentiment_values.csv")
+  for line in file:
+      line_list = line.split(",")
+      sents['val'].append(float((line_list[1]).strip()))
+      sents['word'].append((line_list[0]).strip())
+      sentiment_value_dictionary[line_list[0]] = float(line_list[1].strip())
+  print((sents['val'])[2],(sents['word'])[2])
+  file.close()
 
 '''txtfile = open('presentableallpoems.txt')
 for line in txtfile:
@@ -359,6 +369,7 @@ clear_poems_txt()
 #print(duds)
 #actual_poem_texts()
 print(len(poems['Authors']),len(poems['Titles']))
+poems_into_dict()
 get_sent_value(1)
 '''with open('presentableallpoems.txt') as f:
   print(f.read())
