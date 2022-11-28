@@ -17,6 +17,9 @@ error_links = {
   'linknum': [], 
   'link': [] 
 }
+#opens sentiment value for dictionary
+sentiment_value_dictionary = {}
+file = open("sentiment_values.csv")
 
 def clear_terminal():
   os.system('cls')
@@ -215,7 +218,6 @@ def clear_poems_txt():
   with open('poems.txt', 'w'):
     pass
 
-
 def actual_poem_texts(): 
   with open('allpoems.txt','w'):
     pass
@@ -241,6 +243,23 @@ def fill_dicts_from_links():
           f.write('\n')
         error_links['linknum'].append(x)
         error_links['link'].append((poems['Links'])[x])
+#sentiment code 
+for line in presentableallpoems.txt:
+  line_list = line.split("'")
+  sentiment_value_dictionary[line_list[0]] = float(line_list[1].strip())
+#sentiment value according to sentiment value csv
+def get total_sentiment(user_input):
+  score = 0
+  user_input_list = user_input.split
+
+  for word in presentableallpoems.txt
+    word = word.lower()
+    print(word)
+  
+  if word in sentiment_value_dictionary:
+    score+= sentiment_value_dictionary[word]
+  
+
 
 def writing():
   with open('Links.txt', 'w') as f:
@@ -301,6 +320,8 @@ def clean_links():
     for line in lines:
       if line.strip("\n") not in toremove:
           fp.write(line)
+
+
 
 clear_terminal()
 ##fill_alphabet()
