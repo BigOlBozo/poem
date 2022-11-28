@@ -244,20 +244,21 @@ def fill_dicts_from_links():
         error_links['linknum'].append(x)
         error_links['link'].append((poems['Links'])[x])
 #sentiment code 
-for line in presentableallpoems.txt:
+txtfile = open('presentableallpoems.txt')
+for line in txtfile:
   line_list = line.split("'")
   sentiment_value_dictionary[line_list[0]] = float(line_list[1].strip())
 #sentiment value according to sentiment value csv
-def get total_sentiment(user_input):
+def get_total_sentiment(user_input):
   score = 0
   user_input_list = user_input.split
 
-  for word in presentableallpoems.txt
+  for word in txtfile:
     word = word.lower()
     print(word)
   
   if word in sentiment_value_dictionary:
-    score+= sentiment_value_dictionary[word]
+    score += sentiment_value_dictionary[word]
   
 
 
