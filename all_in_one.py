@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import time
+import csv
 tic = time.perf_counter()
 toremove = []
 alphabet=[]
@@ -17,6 +18,7 @@ error_links = {
   'linknum': [], 
   'link': [] 
 }
+poem = []
 #opens sentiment value for dictionary
 sentiment_value_dictionary = {}
 file = open("sentiment_values.csv")
@@ -244,7 +246,13 @@ def fill_dicts_from_links():
         error_links['linknum'].append(x)
         error_links['link'].append((poems['Links'])[x])
 #sentiment code 
-txtfile = open('presentableallpoems.txt')
+def get_sent_value(linknum):
+  with open('presentableallpoems.txt', 'r') as f:
+    for line in f:
+      poems['Texts'].append(line) #each poem has its own entry in the dict, corresponding to its auth, title, and link
+  print((poems['Texts'])[2])
+
+'''txtfile = open('presentableallpoems.txt')
 for line in txtfile:
   line_list = line.split("'")
   sentiment_value_dictionary[line_list[0]] = float(line_list[1].strip())
@@ -258,12 +266,11 @@ def get_total_sentiment(user_input):
     print(word)
   
   if word in sentiment_value_dictionary:
-<<<<<<< HEAD
     score+= sentiment_value_dictionary[word]
 #alternate
 scores = 0
 
-with open("sentiment_value_dictionary.csv") open as csv_file:
+with open("sentiment_value_dictionary.csv") as csv:
   with open ("presentableallpoems.txt") as text_file:
       csv_reader = csv.DictReader(sentiment_value_dictionary, fieldnames=("word", "sentiment value"))
       text_reader = csv.DictReader(presentableallpoems, fieldnames = (("name", "limit_1", "limit_2"), delimiter=";")))
@@ -273,10 +280,8 @@ with open("sentiment_value_dictionary.csv") open as csv_file:
         scores += sentiment_value_dictionary[word]
 
 
-=======
-    score += sentiment_value_dictionary[word]
+    score += sentiment_value_dictionary[word]'''
   
->>>>>>> 964f38c2f2c1aff9add6d9db823fe04d49b5cd66
 
 
 def writing():
@@ -352,9 +357,9 @@ clear_poems_txt()
 #fill_dicts_from_links()
 #clean_links()
 #print(duds)
-actual_poem_texts()
+#actual_poem_texts()
 print(len(poems['Authors']),len(poems['Titles']))
-
+get_sent_value(1)
 '''with open('presentableallpoems.txt') as f:
   print(f.read())
 '''
